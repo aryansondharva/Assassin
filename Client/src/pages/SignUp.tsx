@@ -148,7 +148,7 @@ export default function SignUp() {
                 </div>
                 <div>
                   <div className="text-sm font-black italic text-hero-foreground font-heading uppercase tracking-widest leading-none mb-1">Elite Operatives</div>
-                  <div className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">156+ Active In-Field</div>
+                  <div className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">168 Active In-Field</div>
                 </div>
               </div>
             </div>

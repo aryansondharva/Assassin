@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Github, Users, Star, GitBranch, MessageSquare, Heart, ExternalLink, Trophy, Zap, Loader2 } from 'lucide-react';
+import { Github, Users, Star, GitBranch, MessageSquare, Heart, ExternalLink, Trophy, Zap, Loader2, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { api } from '@/lib/api-client';
 
@@ -95,10 +95,10 @@ const CommunitySection = () => {
   ];
 
   const stats = [
-    { label: 'Total Operatives', value: '156+', icon: Users, color: 'text-blue-500' },
+    { label: 'Total Operatives', value: '168', icon: Users, color: 'text-blue-500' },
     { label: 'Active Missions', value: '23', icon: GitBranch, color: 'text-green-500' },
-    { label: 'Global Impact', value: '3.2k+', icon: Star, color: 'text-yellow-500' },
-    { label: 'Elite Members', value: '1.8k+', icon: Heart, color: 'text-red-500' }
+    { label: 'Global Reach', value: '50+', icon: MapPin, color: 'text-purple-500' },
+    { label: 'Elite Members', value: '168', icon: Heart, color: 'text-red-500' }
   ];
 
   const getLanguageColor = (language: string) => {

@@ -48,7 +48,7 @@ const HeroSection = () => {
           </div>
           <div className="flex items-center gap-2">
             <Users size={16} className="text-primary" />
-            <span>1.8k+ Operatives</span>
+            <span>168 Operatives</span>
           </div>
         </div>
 
