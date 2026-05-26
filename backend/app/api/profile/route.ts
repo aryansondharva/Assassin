@@ -4,6 +4,7 @@ import { Pool } from 'pg'
 import { profileUpdateSchema } from '@/lib/validations/profile'
 import { handleApiError, NotFoundError, ConflictError, AuthorizationError, AuthenticationError } from '@/lib/errors'
 import { deleteAvatar } from '@/lib/storage/cleanup'
+import { ensureEditProfileColumns } from '@/lib/profile-schema'
 
 // Use pg pool directly — avoids PostgREST schema cache issues entirely
 const pool = new Pool({
@@ -27,6 +28,8 @@ export async function GET() {
 
     const client = await pool.connect()
     try {
+      await ensureEditProfileColumns(client)
+
       const { rows } = await client.query(
         'SELECT * FROM public.profiles WHERE id = $1',
         [userId]
@@ -43,16 +46,18 @@ export async function GET() {
           )?.emailAddress || user.emailAddresses[0]?.emailAddress || ''
           
           const username = user.username || primaryEmail.split('@')[0] || `user_${userId.slice(-8)}`
-          const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ') || ''
+          const firstName = user.firstName || ''
+          const lastName = user.lastName || ''
+          const fullName = [firstName, lastName].filter(Boolean).join(' ') || ''
           const avatarUrl = user.imageUrl || null
 
           const { rows: newRows } = await client.query(`
             INSERT INTO public.profiles (
-              id, username, email, full_name, avatar_url, updated_at
+              id, username, email, first_name, last_name, full_name, avatar_url, updated_at
             ) VALUES (
-              $1, $2, $3, $4, $5, NOW()
+              $1, $2, $3, $4, $5, $6, $7, NOW()
             ) RETURNING *
-          `, [userId, username, primaryEmail, fullName, avatarUrl])
+          `, [userId, username, primaryEmail, firstName, lastName, fullName, avatarUrl])
           
           return NextResponse.json(newRows[0])
         } catch (syncError) {
@@ -97,6 +102,8 @@ export async function PATCH(request: Request) {
 
     const client = await pool.connect()
     try {
+      await ensureEditProfileColumns(client)
+
       // Check username uniqueness (if changing)
       if (validatedData.username) {
         const { rows: existing } = await client.query(
@@ -108,13 +115,37 @@ export async function PATCH(request: Request) {
         }
       }
 
+      const dataToUpdate: Record<string, unknown> = { ...validatedData }
+
+      if (
+        !('full_name' in dataToUpdate) &&
+        ('first_name' in dataToUpdate || 'last_name' in dataToUpdate)
+      ) {
+        const { rows: currentRows } = await client.query(
+          'SELECT first_name, last_name, full_name FROM public.profiles WHERE id = $1',
+          [userId]
+        )
+        const currentProfile = currentRows[0] || {}
+        const firstName = String(dataToUpdate.first_name ?? currentProfile.first_name ?? '').trim()
+        const lastName = String(dataToUpdate.last_name ?? currentProfile.last_name ?? '').trim()
+        dataToUpdate.full_name = [firstName, lastName].filter(Boolean).join(' ').trim()
+          || currentProfile.full_name
+          || ''
+      }
+
       // Build dynamic UPDATE query from validated fields
       const allowedFields = [
         'username', 'full_name', 'email', 'bio', 'avatar_url',
-        'github_url', 'linkedin_url', 'portfolio_url'
+        'first_name', 'last_name', 'gender', 'tshirt_size', 'phone',
+        'github_url', 'linkedin_url', 'twitter_url', 'portfolio_url',
+        'readme', 'address', 'dietary_preference', 'allergies',
+        'has_education', 'education', 'university', 'degree_type',
+        'graduation_year', 'graduation_month', 'skills', 'interests',
+        'roles', 'resume_url', 'has_experience', 'banner_url',
+        'emergency_contact_name', 'emergency_contact_phone'
       ]
 
-      const entries = Object.entries(validatedData)
+      const entries = Object.entries(dataToUpdate)
         .filter(([key]) => allowedFields.includes(key))
         .map(([key, value]) => {
           // Lowercase usernames

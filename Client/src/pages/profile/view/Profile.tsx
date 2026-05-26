@@ -204,6 +204,7 @@ export default function Profile() {
     'Operative';
   
   const avatarUrl = profile?.avatar_url || clerkUser?.imageUrl;
+  const readme = profile?.readme || 'Highly motivated and detail-oriented computer science student with a strong passion for software development and artificial intelligence.';
 
   // Get the first letter of display name for avatar
   const getInitial = (name: string) => {
@@ -280,7 +281,7 @@ export default function Profile() {
                 <div className="flex items-center gap-4">
                   <SocialIcon icon={Github} href={profile?.github_url} />
                   <SocialIcon icon={Linkedin} href={profile?.linkedin_url} />
-                  <SocialIcon icon={Twitter} />
+                  <SocialIcon icon={Twitter} href={profile?.twitter_url} />
                 </div>
               </div>
             </div>
@@ -384,8 +385,8 @@ export default function Profile() {
                    <Card className="border-none shadow-sm rounded-3xl bg-white p-10">
                       <article className="prose prose-slate max-w-none">
                          <h2 className="text-slate-900 font-extrabold tracking-tight">Expertise & Vision</h2>
-                         <p className="text-slate-600 font-medium leading-relaxed italic">
-                           Highly motivated and detail-oriented computer science student with a strong passion for software development and artificial intelligence.
+                         <p className="text-slate-600 font-medium leading-relaxed italic whitespace-pre-wrap">
+                           {readme}
                          </p>
                          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 list-none p-0 mt-8">
                             <li className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex items-center gap-4">

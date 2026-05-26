@@ -36,6 +36,7 @@ export interface Profile {
   degree_type: string | null;
   graduation_year: number | null;
   graduation_month: string | null;
+  skills: string[] | null;
   roles: string[] | null;
   resume_url: string | null;
   has_experience: boolean;

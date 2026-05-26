@@ -2,6 +2,7 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
 import { Pool } from 'pg'
+import { ensureEditProfileColumns } from '@/lib/profile-schema'
 
 // Initialize PostgreSQL pool
 const pool = new Pool({
@@ -98,6 +99,8 @@ export async function POST(req: Request) {
  */
 async function handleUserUpsert(userData: any, client: any) {
   try {
+    await ensureEditProfileColumns(client)
+
     const clerkUserId = userData.id
     const primaryEmail = userData.email_addresses?.find(
       (email: any) => email.id === userData.primary_email_address_id
@@ -112,12 +115,14 @@ async function handleUserUpsert(userData: any, client: any) {
     // Upsert profile
     await client.query(`
       INSERT INTO public.profiles (
-        id, username, email, full_name, avatar_url, updated_at
+        id, username, email, first_name, last_name, full_name, avatar_url, updated_at
       ) VALUES (
-        $1, $2, $3, $4, $5, NOW()
+        $1, $2, $3, $4, $5, $6, $7, NOW()
       )
       ON CONFLICT (id) DO UPDATE SET
         email = EXCLUDED.email,
+        first_name = EXCLUDED.first_name,
+        last_name = EXCLUDED.last_name,
         full_name = EXCLUDED.full_name,
         avatar_url = EXCLUDED.avatar_url,
         updated_at = NOW()
@@ -126,6 +131,8 @@ async function handleUserUpsert(userData: any, client: any) {
       clerkUserId,
       username,
       primaryEmail,
+      firstName,
+      lastName,
       fullName,
       imageUrl
     ])

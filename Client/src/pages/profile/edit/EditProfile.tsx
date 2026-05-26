@@ -31,6 +31,53 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from 'framer-motion';
 
+const splitFullName = (fullName?: string | null) => {
+  const parts = (fullName || '').trim().split(/\s+/).filter(Boolean);
+  return {
+    firstName: parts[0] || '',
+    lastName: parts.slice(1).join(' '),
+  };
+};
+
+const getFullName = (firstName?: string, lastName?: string, fallback?: string | null) => {
+  return [firstName, lastName].filter(Boolean).join(' ').trim() || fallback || '';
+};
+
+const mapProfileToFormData = (data: Profile): ProfileUpdateRequest => {
+  const fallbackName = splitFullName(data.full_name);
+  const firstName = data.first_name || fallbackName.firstName;
+  const lastName = data.last_name || fallbackName.lastName;
+
+  return {
+    first_name: firstName,
+    last_name: lastName,
+    full_name: getFullName(firstName, lastName, data.full_name),
+    username: data.username || '',
+    gender: data.gender || '',
+    tshirt_size: data.tshirt_size || '',
+    address: data.address || '',
+    bio: data.bio || '',
+    readme: data.readme || '',
+    dietary_preference: data.dietary_preference || '',
+    allergies: data.allergies || '',
+    has_education: data.has_education ?? true,
+    degree_type: data.degree_type || '',
+    university: data.university || '',
+    graduation_year: data.graduation_year || undefined,
+    graduation_month: data.graduation_month || '',
+    education: data.education || '',
+    roles: data.roles || [],
+    skills: data.skills || data.interests || [],
+    github_url: data.github_url || '',
+    linkedin_url: data.linkedin_url || '',
+    twitter_url: data.twitter_url || '',
+    resume_url: data.resume_url || '',
+    phone: data.phone || '',
+    emergency_contact_name: data.emergency_contact_name || '',
+    emergency_contact_phone: data.emergency_contact_phone || '',
+  };
+};
+
 export default function EditProfile() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -58,33 +105,7 @@ export default function EditProfile() {
     try {
       const data = await profileService.getMyProfile();
       setProfile(data);
-      // Map initial values from API profile to formData
-      setFormData({
-        first_name: data.first_name || '',
-        last_name: data.last_name || '',
-        username: data.username || '',
-        gender: data.gender || '',
-        tshirt_size: data.tshirt_size || '',
-        address: data.address || '',
-        bio: data.bio || '',
-        readme: data.readme || '',
-        dietary_preference: data.dietary_preference || '',
-        allergies: data.allergies || '',
-        has_education: data.has_education ?? true,
-        degree_type: data.degree_type || '',
-        university: data.university || '',
-        graduation_year: data.graduation_year || '',
-        graduation_month: data.graduation_month || '',
-        education: data.education || '', // Field of study
-        roles: data.roles || [],
-        skills: data.interests || [], // Mapping interests to skills in UI
-        github_url: data.github_url || '',
-        linkedin_url: data.linkedin_url || '',
-        twitter_url: data.twitter_url || '',
-        phone: data.phone || '',
-        emergency_contact_name: data.emergency_contact_name || '',
-        emergency_contact_phone: data.emergency_contact_phone || '',
-      });
+      setFormData(mapProfileToFormData(data));
     } catch (error) {
       console.error(error);
     } finally {
@@ -100,8 +121,16 @@ export default function EditProfile() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      const updatedData = await profileService.update(formData);
+      const payload: ProfileUpdateRequest = {
+        ...formData,
+      };
+      const fullName = getFullName(formData.first_name, formData.last_name, formData.full_name);
+      if (fullName) {
+        payload.full_name = fullName;
+      }
+      const updatedData = await profileService.update(payload);
       setProfile(updatedData);
+      setFormData(mapProfileToFormData(updatedData));
       
       // Update the stored user data for real-time sync across the app
       authService.updateUser({
