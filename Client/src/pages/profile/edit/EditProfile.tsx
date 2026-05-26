@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { profileService, authService } from '@/services';
-import { useAuth } from '@clerk/react';
+import { useAuth, useUser } from '@clerk/react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -43,49 +43,81 @@ const getFullName = (firstName?: string, lastName?: string, fallback?: string | 
   return [firstName, lastName].filter(Boolean).join(' ').trim() || fallback || '';
 };
 
-const mapProfileToFormData = (data: Profile): ProfileUpdateRequest => {
-  const fallbackName = splitFullName(data.full_name);
-  const firstName = data.first_name || fallbackName.firstName;
-  const lastName = data.last_name || fallbackName.lastName;
+const getClerkProfileFallback = (clerkUser: any, userId?: string | null): Partial<Profile> => {
+  const email = clerkUser?.primaryEmailAddress?.emailAddress || '';
+  const fallbackName = splitFullName(clerkUser?.fullName);
+  const firstName = clerkUser?.firstName || fallbackName.firstName;
+  const lastName = clerkUser?.lastName || fallbackName.lastName;
+
+  return {
+    id: userId || clerkUser?.id || '',
+    username: clerkUser?.username || email.split('@')[0] || '',
+    email,
+    first_name: firstName,
+    last_name: lastName,
+    full_name: getFullName(firstName, lastName, clerkUser?.fullName),
+    avatar_url: clerkUser?.imageUrl || null,
+  };
+};
+
+const mergeProfileWithFallback = (data: Partial<Profile>, fallback: Partial<Profile>): Partial<Profile> => {
+  return {
+    ...fallback,
+    ...data,
+    username: data.username || fallback.username || '',
+    email: data.email || fallback.email || '',
+    first_name: data.first_name || fallback.first_name || '',
+    last_name: data.last_name || fallback.last_name || '',
+    full_name: data.full_name || fallback.full_name || '',
+    avatar_url: data.avatar_url || fallback.avatar_url || null,
+  };
+};
+
+const mapProfileToFormData = (data: Partial<Profile>, fallback: Partial<Profile> = {}): ProfileUpdateRequest => {
+  const merged = mergeProfileWithFallback(data, fallback);
+  const fallbackName = splitFullName(merged.full_name);
+  const firstName = merged.first_name || fallbackName.firstName;
+  const lastName = merged.last_name || fallbackName.lastName;
 
   return {
     first_name: firstName,
     last_name: lastName,
-    full_name: getFullName(firstName, lastName, data.full_name),
-    username: data.username || '',
-    gender: data.gender || '',
-    tshirt_size: data.tshirt_size || '',
-    address: data.address || '',
-    bio: data.bio || '',
-    readme: data.readme || '',
-    dietary_preference: data.dietary_preference || '',
-    allergies: data.allergies || '',
-    has_education: data.has_education ?? true,
-    degree_type: data.degree_type || '',
-    university: data.university || '',
-    graduation_year: data.graduation_year || undefined,
-    graduation_month: data.graduation_month || '',
-    education: data.education || '',
-    roles: data.roles || [],
-    skills: data.skills || data.interests || [],
-    github_url: data.github_url || '',
-    linkedin_url: data.linkedin_url || '',
-    twitter_url: data.twitter_url || '',
-    resume_url: data.resume_url || '',
-    phone: data.phone || '',
-    emergency_contact_name: data.emergency_contact_name || '',
-    emergency_contact_phone: data.emergency_contact_phone || '',
+    full_name: getFullName(firstName, lastName, merged.full_name),
+    username: merged.username || '',
+    gender: merged.gender || '',
+    tshirt_size: merged.tshirt_size || '',
+    address: merged.address || '',
+    bio: merged.bio || '',
+    readme: merged.readme || '',
+    dietary_preference: merged.dietary_preference || '',
+    allergies: merged.allergies || '',
+    has_education: merged.has_education ?? true,
+    degree_type: merged.degree_type || '',
+    university: merged.university || '',
+    graduation_year: merged.graduation_year || undefined,
+    graduation_month: merged.graduation_month || '',
+    education: merged.education || '',
+    roles: merged.roles || [],
+    skills: merged.skills || merged.interests || [],
+    github_url: merged.github_url || '',
+    linkedin_url: merged.linkedin_url || '',
+    twitter_url: merged.twitter_url || '',
+    resume_url: merged.resume_url || '',
+    phone: merged.phone || '',
+    emergency_contact_name: merged.emergency_contact_name || '',
+    emergency_contact_phone: merged.emergency_contact_phone || '',
   };
 };
 
 export default function EditProfile() {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profile, setProfile] = useState<Partial<Profile> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   
   const { isLoaded, userId } = useAuth();
+  const { user: clerkUser } = useUser();
   
   // Advanced state mapping for the expanded Supabase schema
   const [formData, setFormData] = useState<ProfileUpdateRequest>({});
@@ -98,16 +130,20 @@ export default function EditProfile() {
       return;
     }
     fetchProfile();
-  }, [navigate, isLoaded, userId]);
+  }, [navigate, isLoaded, userId, clerkUser]);
 
   const fetchProfile = async () => {
     setIsLoading(true);
+    const fallback = getClerkProfileFallback(clerkUser, userId);
     try {
       const data = await profileService.getMyProfile();
-      setProfile(data);
-      setFormData(mapProfileToFormData(data));
+      const mergedProfile = mergeProfileWithFallback(data, fallback);
+      setProfile(mergedProfile);
+      setFormData(mapProfileToFormData(mergedProfile, fallback));
     } catch (error) {
       console.error(error);
+      setProfile(fallback);
+      setFormData(mapProfileToFormData(fallback));
     } finally {
       setIsLoading(false);
     }
@@ -129,8 +165,10 @@ export default function EditProfile() {
         payload.full_name = fullName;
       }
       const updatedData = await profileService.update(payload);
-      setProfile(updatedData);
-      setFormData(mapProfileToFormData(updatedData));
+      const fallback = getClerkProfileFallback(clerkUser, userId);
+      const mergedProfile = mergeProfileWithFallback(updatedData, fallback);
+      setProfile(mergedProfile);
+      setFormData(mapProfileToFormData(mergedProfile, fallback));
       
       // Update the stored user data for real-time sync across the app
       authService.updateUser({
