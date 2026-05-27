@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Github, Users, Star, GitBranch, MessageSquare, Heart, ExternalLink, Trophy, Zap, Loader2, MapPin } from 'lucide-react';
+import { Github, Users, Star, GitBranch, MessageSquare, Heart, ExternalLink, Trophy, Zap, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { api } from '@/lib/api-client';
 
@@ -94,13 +94,6 @@ const CommunitySection = () => {
     }
   ];
 
-  const stats = [
-    { label: 'Total Operatives', value: '168', icon: Users, color: 'text-blue-500' },
-    { label: 'Active Missions', value: '23', icon: GitBranch, color: 'text-green-500' },
-    { label: 'Global Reach', value: '50+', icon: MapPin, color: 'text-purple-500' },
-    { label: 'Elite Members', value: '168', icon: Heart, color: 'text-red-500' }
-  ];
-
   const getLanguageColor = (language: string) => {
     const colors: Record<string, string> = {
       'TypeScript': 'bg-blue-500',
@@ -151,31 +144,6 @@ const CommunitySection = () => {
               Join Community
             </a>
           </div>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-          {stats.map((stat, index) => (
-            <div key={index} className="bg-card rounded-xl p-6 text-center border border-border group hover:border-primary/50 transition-all duration-300">
-              <stat.icon className={`w-8 h-8 ${stat.color} mx-auto mb-3`} />
-              <div className="flex flex-col items-center">
-                <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                <div className="text-sm text-muted-foreground mb-3">{stat.label}</div>
-                {stat.label === 'Total Operatives' && (
-                  <div className="flex -space-x-2">
-                    {[1, 2, 3].map((i) => (
-                      <div key={i} className="w-8 h-8 rounded-full border-2 border-background overflow-hidden bg-primary/10">
-                        <img 
-                          src={`https://api.dicebear.com/7.x/avataaars/svg?seed=contributor${i}`} 
-                          alt="Contributor" 
-                          className="w-full h-full object-cover" 
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
         </div>
 
         {/* Tabs */}

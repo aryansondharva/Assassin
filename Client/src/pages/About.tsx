@@ -11,9 +11,8 @@ import { Link } from "react-router-dom";
 type Member = {
   name: string;
   role: string;
-  seed: string;
   accent: string;
-  image?: string;
+  image: string;
   links?: {
     portfolio?: string;
     discord?: string;
@@ -27,28 +26,31 @@ const team: Member[] = [
   {
     name: "Manthan Rajpurohit",
     role: "Co-Founder",
-    seed: "manthan",
-    accent: "bg-red-600",
+    accent: "bg-blue-600",
     image: "/manthan.png",
   },
   {
-    name: "Aryan Sondharva",
-    role: "Founder",
-    seed: "aryan",
-    accent: "bg-red-600",
-    image: "/founder.png",
-    links: {
-      portfolio: "https://aryan-sondharva.vercel.app/",
-      discord: "https://discord.gg/S6V3KNUu",
-      github: "https://github.com/aryansondharva",
-      twitter: "https://x.com/aryansondharva",
-      linkedin: "https://www.linkedin.com/in/aryan-sondharva",
-    },
+    name: "Berlin",
+    role: "Community",
+    accent: "bg-emerald-600",
+    image: "/berlin.png",
+  },
+  {
+    name: "Rio",
+    role: "Engineering",
+    accent: "bg-violet-600",
+    image: "/rio.png",
+  },
+  {
+    name: "Tokyo",
+    role: "Design",
+    accent: "bg-amber-500",
+    image: "/tokyo.png",
   },
 ];
 
 const advisors: Member[] = [
- // { name: "Akash N.", role: "Product Advisor", seed: "akash", accent: "bg-blue-600", image: "/advisor.png" },
+ // { name: "Akash N.", role: "Product Advisor", accent: "bg-blue-600", image: "/advisor.png" },
 ];
 
 const stats = [
@@ -57,9 +59,6 @@ const stats = [
   // { label: "Countries", value: "50+" },
   // { label: "Build Hours", value: "8k+" },
 ];
-
-const avatarUrl = (seed: string) =>
-  `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`;
 
 const About = () => {
   return (
@@ -77,8 +76,10 @@ const About = () => {
                 <span className="absolute -bottom-1 left-1 right-1 h-2 bg-red-200/80" />
               </span>
             </h1>
-            <p className="mx-auto mt-8 max-w-3xl text-base font-semibold leading-8 text-slate-600 md:text-lg">
-              We believe every student has the potential to build something meaningful. Tech Assassin exists to give builders the right environment, team, mentorship, and opportunities to bring their ideas to life. From coding missions and open-source contributions to hackathons, workshops, and project showcases — we help students move from learning to building.
+            <p className="mx-auto mt-8 max-w-6xl text-center text-base font-semibold leading-8 text-slate-600 md:text-lg">
+              <span className="block">We believe every student has the potential to build something meaningful. Tech Assassin exists to give builders</span>
+              <span className="block">the right environment, team, mentorship, and opportunities to bring their ideas to life. From coding missions</span>
+              <span className="block">and open-source contributions to hackathons, workshops, and project showcases &mdash; <strong className="font-black text-slate-950">We turn learners into builders.</strong></span>
             </p>
           </div>
         </section>
@@ -113,7 +114,6 @@ const About = () => {
                 member={{
                   name: "Aryan Sondharva",
                   role: "Founder",
-                  seed: "aryan-founder",
                   accent: "bg-red-600",
                   image: "/founder.png",
                   links: {
@@ -202,7 +202,7 @@ const MemberCard = ({
       >
         <div className="h-36 w-36 overflow-hidden rounded-full bg-slate-100 ring-8 ring-slate-50">
           <img
-            src={member.image ?? avatarUrl(member.seed)}
+            src={member.image}
             alt={`${member.name} avatar`}
             className="h-full w-full object-cover"
             loading="lazy"
