@@ -1,6 +1,7 @@
 import founderImg from '@/assets/founder.png';
 import manthanImg from '@/assets/manthan.png';
 import flagImg from '@/assets/flag.webp';
+import keyChainImg from '@/assets/key_chain.png';
 import {
   ArrowRight,
   BookOpen,
@@ -16,9 +17,9 @@ import {
 import { Link } from "react-router-dom";
 
 const stats = [
-  { value: "950+", label: "builders guided", color: "bg-red-500" },
-  { value: "80+", label: "projects shipped", color: "bg-emerald-400" },
-  { value: "25+", label: "missions hosted", color: "bg-blue-500" },
+  //{ value: "950+", label: "builders guided", color: "bg-red-500" },
+  //{ value: "80+", label: "projects shipped", color: "bg-emerald-400" },
+  //{ value: "25+", label: "missions hosted", color: "bg-blue-500" },
 ];
 
 const missions = [
@@ -107,9 +108,9 @@ const ImpactSection = () => (
         <div className="relative">
           <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_30px_70px_-45px_rgba(15,23,42,0.8)]">
             <img
-              src={flagImg}
-              alt="Tech Assassin community"
-              className="h-64 w-full object-cover sm:h-80 md:h-[23rem]"
+              src={keyChainImg}
+              alt="Tech Assassin key chain"
+              className="h-64 w-full object-cover object-center sm:h-80 md:h-[23rem]"
               loading="lazy"
             />
           </div>
