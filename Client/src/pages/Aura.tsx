@@ -148,7 +148,7 @@ const Aura = () => {
         <div className="container mx-auto px-6">
           <div className="mb-8 flex justify-center">
             <img
-              src="/tech_assassin_logo.png"
+              src="/logo.png"
               alt="Tech Assassin"
               className="h-8 w-auto object-contain"
             />

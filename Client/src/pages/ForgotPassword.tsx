@@ -138,7 +138,7 @@ export default function ForgotPassword() {
           <CardHeader className="text-center">
             <div className="mx-auto mb-4">
               <img
-                src="/tech_assassin_logo.png"
+                src="/logo.png"
                 alt="Tech Assassin"
                 className="mx-auto h-10 w-auto object-contain"
               />

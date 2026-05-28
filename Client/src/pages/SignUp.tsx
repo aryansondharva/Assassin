@@ -185,7 +185,7 @@ export default function SignUp() {
           <CardHeader className="space-y-1 text-center">
             <div className="mx-auto mb-4">
               <img 
-                src="/tech_assassin_logo.png"
+                src="/logo.png"
                 alt="Tech Assassin"
                 className="mx-auto mb-2 h-10 w-auto object-contain"
               />
