@@ -5,7 +5,11 @@
  * It handles authentication, error handling, and request/response formatting.
  */
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://techassassin.onrender.com/api';
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV
+    ? 'http://localhost:3001/api'
+    : 'https://tech-assassin.onrender.com/api');
 const DEBUG = import.meta.env.VITE_DEBUG === 'true';
 
 /**
