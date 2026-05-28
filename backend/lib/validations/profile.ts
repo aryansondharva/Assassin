@@ -37,7 +37,7 @@ export const profileUpdateSchema = z.object({
     .or(z.literal('')),
   skills: z
     .array(z.string())
-    .max(15, 'Cannot have more than 15 skills')
+    .max(10, 'Cannot have more than 10 skills')
     .optional(),
   university: z.string().max(100).optional().or(z.literal('')),
   education: z.string().max(100).optional().or(z.literal('')),

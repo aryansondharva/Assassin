@@ -37,7 +37,7 @@ interface Mission {
   difficulty: 'easy' | 'medium' | 'hard';
   requirement_type?: string;
   status: 'in_progress' | 'pending_verification' | 'completed';
-  progress: any;
+  progress: Record<string, unknown> | null;
   time_remaining_ms: number;
 }
 
@@ -215,7 +215,7 @@ type ViewType   = 'all' | 'my';
 
 const MissionsHub = () => {
   const [missions,          setMissions]          = useState<Mission[]>([]);
-  const [profile,           setProfile]           = useState<any>(null);
+  const [profile,           setProfile]           = useState<Profile | null>(null);
   const [userId,            setUserId]            = useState<string | null>(null);
   const [loading,           setLoading]           = useState(true);
   const [activeFilter,      setActiveFilter]      = useState<FilterType>('all');

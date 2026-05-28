@@ -10,7 +10,7 @@ import type { NextRequest } from 'next/server'
  * 2. Handles Cross-Origin Resource Sharing (CORS) for all API routes
  */
 
-export default clerkMiddleware((auth, request) => {
+export const middleware = clerkMiddleware((auth, request) => {
   // Get origin from request headers
   const origin = request.headers.get('origin')
   const isDev = process.env.NODE_ENV === 'development'
@@ -43,6 +43,8 @@ export default clerkMiddleware((auth, request) => {
         ...(isAllowedOrigin ? { 'Access-Control-Allow-Credentials': 'true' } : {}),
       },
     })
+
+    export default middleware
   }
   
   // Handle actual requests

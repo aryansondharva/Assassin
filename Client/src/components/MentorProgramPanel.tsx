@@ -136,12 +136,16 @@ const MentorProgramPanel = () => {
       try {
         const myRequests = await api.get<MentorRequest[]>('/community/mentors/requests');
         setRequests(myRequests);
-      } catch (err) {}
+      } catch (err) {
+        void err;
+      }
 
       try {
         const me = await api.get<Mentor>('/community/mentors/me');
         setMyProfile(me);
-      } catch (err) {}
+      } catch (err) {
+        void err;
+      }
     } catch (error) {
       setMessage('Failed to load mission data.');
     } finally {
@@ -171,7 +175,7 @@ const MentorProgramPanel = () => {
   };
 
   const handleApplyFilters = async () => {
-    const query: any = {};
+    const query: Record<string, string> = {};
     if (filters.skill.trim()) query.skill = filters.skill.trim();
     if (filters.experienceLevel) query.experienceLevel = filters.experienceLevel;
     const list = await api.get<Mentor[]>('/community/mentors', query);
