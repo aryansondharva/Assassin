@@ -150,7 +150,7 @@ const Footer = () => {
         {/* Bottom bar: Brand + Copyright */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <img
-            src="/tech_assassin_logo.png"
+            src="/logo.png"
             alt="Tech Assassin"
             className="h-7 w-auto object-contain"
           />

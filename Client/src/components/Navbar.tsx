@@ -87,7 +87,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
           {/* Logo Section */}
           <Link to="/" className="flex items-center gap-2 group shrink-0">
             <img
-              src="/tech_assassin_logo.png"
+              src="/logo.png"
               alt="Tech Assassin"
               className="h-5 w-auto object-contain min-[420px]:h-6 md:h-8"
             />
@@ -177,7 +177,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
               <div className="flex items-center justify-between">
                 <Link to="/" onClick={() => setMobileOpen(false)} className="shrink-0">
                   <img
-                    src="/tech_assassin_logo.png"
+                    src="/logo.png"
                     alt="Tech Assassin"
                     className="h-6 w-auto object-contain"
                   />
