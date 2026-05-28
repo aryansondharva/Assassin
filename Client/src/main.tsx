@@ -39,13 +39,8 @@ if (!PUBLISHABLE_KEY) {
       Add your Clerk publishable key to the environment before running the app.
     </>
   );
-} else if (isProductionMode && !isLiveClerkKey) {
-  renderConfigurationError(
-    <>
-      Production builds must use a Clerk live key. <br /><br />
-      Set <b>VITE_CLERK_PUBLISHABLE_KEY</b> to your Clerk production key that starts with <b>pk_live_</b>.
-    </>
-  );
+// Allow test keys in production for hackathon deployments
+// (Removed the block that checks isProductionMode && !isLiveClerkKey)
 } else {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
