@@ -74,14 +74,14 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] border-b border-slate-200 bg-white px-4 py-2 shadow-sm pointer-events-none text-sans">
+    <nav className="fixed top-0 left-0 right-0 z-[100] border-b border-slate-200 bg-white px-3 py-1.5 shadow-sm pointer-events-none text-sans sm:px-4 sm:py-2">
       <motion.div 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className="container mx-auto max-w-7xl pointer-events-auto"
       >
         <div className={`
-          relative flex items-center justify-between h-12 px-4 md:px-6 rounded-full
+          relative flex h-10 items-center justify-between px-0 sm:h-11 sm:px-2 md:h-12 md:px-6 rounded-full
           border border-transparent bg-transparent shadow-none transition-colors duration-300
         `}>
           {/* Logo Section */}
@@ -89,7 +89,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
             <img
               src="/tech_assassin_logo.png"
               alt="Tech Assassin"
-              className="h-7 w-auto object-contain md:h-8"
+              className="h-5 w-auto object-contain min-[420px]:h-6 md:h-8"
             />
           </Link>
 
@@ -149,12 +149,13 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
           </div>
             
             {/* Mobile Actions Container */}
-            <div className="flex items-center gap-4 md:hidden">
+            <div className="flex items-center gap-3 md:hidden">
               {isSignedIn && <NotificationBell dark={false} />}
               
               {/* Mobile Menu Button */}
               <button
                 className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-950 transition-colors hover:bg-slate-100"
+                aria-label={mobileOpen ? "Close menu" : "Open menu"}
                 onClick={() => setMobileOpen(!mobileOpen)}
               >
                 {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -170,39 +171,60 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-24 left-4 right-4 rounded-[2rem] border border-slate-100 bg-white p-8 shadow-2xl lg:hidden pointer-events-auto"
+            className="fixed inset-0 z-[110] bg-white px-5 py-5 pointer-events-auto lg:hidden"
           >
-            <div className="flex flex-col gap-6">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  onClick={() => handleNavClick(link.href)}
-                  className="text-2xl font-black italic uppercase tracking-tighter text-slate-500 transition-colors hover:text-red-600"
-                >
-                  {link.label}
+            <div className="flex h-full flex-col">
+              <div className="flex items-center justify-between">
+                <Link to="/" onClick={() => setMobileOpen(false)} className="shrink-0">
+                  <img
+                    src="/tech_assassin_logo.png"
+                    alt="Tech Assassin"
+                    className="h-6 w-auto object-contain"
+                  />
                 </Link>
-              ))}
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-950"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="flex flex-1 flex-col justify-center gap-7">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    onClick={() => handleNavClick(link.href)}
+                    className="text-4xl font-black uppercase leading-none tracking-tight text-slate-950 transition-colors active:text-red-600"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+
               {isSignedIn ? (
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3 border-t border-slate-100 pt-5 text-sm">
                    <Link to={`/@${user?.username}`} className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>My Assassin</Link>
                    <Link to="/edit-profile" className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>Edit Profile</Link>
                    <Link to="/missions" className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>My Missions</Link>
                    <Link to={`/@${user?.username}`} className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>Dashboard</Link>
-                   <button onClick={handleLogout} className="text-red-500 font-bold uppercase tracking-widest text-left">Log Out</button>
+                   <button onClick={handleLogout} className="text-left font-bold uppercase tracking-widest text-red-500">Log Out</button>
                 </div>
               ) : (
-                <div className="flex flex-col gap-4">
+                <div className="grid gap-3 border-t border-slate-100 pt-5">
                   <SignInButton mode="modal">
                     <button
-                      className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-4 text-center font-black uppercase tracking-widest text-slate-900"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 py-4 text-center text-sm font-black uppercase tracking-widest text-slate-900"
                     >
                       Enter System
                     </button>
                   </SignInButton>
                   <SignUpButton mode="modal">
                     <button
-                      className="w-full rounded-2xl bg-slate-900 py-4 text-center font-black uppercase tracking-widest text-white"
+                      className="w-full rounded-xl bg-slate-900 py-4 text-center text-sm font-black uppercase tracking-widest text-white"
                     >
                       Join Squad
                     </button>

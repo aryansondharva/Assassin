@@ -106,33 +106,33 @@ const ImpactSection = () => (
             <img
               src="/flag.webp"
               alt="Tech Assassin community"
-              className="h-[23rem] w-full object-cover"
+              className="h-64 w-full object-cover sm:h-80 md:h-[23rem]"
               loading="lazy"
             />
           </div>
-          <FloatingChip className="-bottom-5 left-8" color="bg-yellow-300" text="JS" />
-          <FloatingChip className="-right-6 top-8" color="bg-emerald-400" text="{ }" />
+          <FloatingChip className="-bottom-4 left-4 sm:-bottom-5 sm:left-8" color="bg-yellow-300" text="JS" />
+          <FloatingChip className="-right-3 top-6 sm:-right-6 sm:top-8" color="bg-emerald-400" text="{ }" />
         </div>
 
         <div>
           <p className="mb-4 text-sm font-black uppercase tracking-[0.22em] text-red-600">
             We ship momentum
           </p>
-          <h2 className="text-4xl font-black leading-tight text-slate-950 md:text-5xl">
+          <h2 className="text-3xl font-black leading-tight text-slate-950 sm:text-4xl md:text-5xl">
             A community where learners become builders.
           </h2>
-          <p className="mt-5 text-lg font-medium leading-8 text-slate-600">
+          <p className="mt-5 text-base font-medium leading-7 text-slate-600 sm:text-lg sm:leading-8">
             We run missions, reviews, workshops, and project showcases so students
             can move from tutorials to real work with a squad around them.
           </p>
 
           <div className="mt-8 space-y-3">
             {stats.map((stat) => (
-              <div key={stat.label} className="flex items-center gap-4">
-                <span className={`min-w-[9rem] rounded-full px-4 py-2 text-center text-lg font-black text-white ${stat.color}`}>
+              <div key={stat.label} className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-4">
+                <span className={`min-w-[7rem] rounded-full px-4 py-2 text-center text-base font-black text-white sm:min-w-[9rem] sm:text-lg ${stat.color}`}>
                   {stat.value}
                 </span>
-                <span className="text-sm font-black uppercase tracking-[0.18em] text-slate-500">
+                <span className="text-xs font-black uppercase tracking-[0.16em] text-slate-500 sm:text-sm sm:tracking-[0.18em]">
                   {stat.label}
                 </span>
               </div>
@@ -199,12 +199,12 @@ const QuoteSection = () => (
             <img
               src="/founder.png"
               alt="Tech Assassin founder"
-              className="h-80 w-72 object-cover"
+              className="h-72 w-full max-w-xs object-cover sm:h-80 sm:w-72"
               loading="lazy"
             />
           </div>
-          <FloatingChip className="-left-7 top-5" color="bg-yellow-300" text="fx" />
-          <FloatingChip className="-bottom-6 right-6" color="bg-blue-500" text="Py" light />
+          <FloatingChip className="-left-4 top-4 sm:-left-7 sm:top-5" color="bg-yellow-300" text="fx" />
+          <FloatingChip className="-bottom-4 right-5 sm:-bottom-6 sm:right-6" color="bg-blue-500" text="Py" light />
         </div>
       </div>
     </div>
@@ -253,10 +253,10 @@ const BuilderStorySection = () => (
                 <span className="h-4 w-16 rounded-full bg-emerald-400" />
                 <Icon className="h-5 w-5 text-blue-500" />
               </div>
-              <h3 className="text-3xl font-black leading-tight text-slate-950">
+              <h3 className="text-2xl font-black leading-tight text-slate-950 sm:text-3xl">
                 {block.title}
               </h3>
-              <p className="mt-4 text-base font-medium leading-7 text-slate-600">
+              <p className="mt-4 text-sm font-medium leading-7 text-slate-600 sm:text-base">
                 {block.body}
               </p>
               <Link
@@ -278,10 +278,10 @@ const DeveloperVoicesSection = () => (
   <section id="developers-say" className="bg-white py-16 md:py-20">
     <div className="container mx-auto px-6">
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-4xl font-black text-slate-950">
+        <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">
           We speak, we listen, we discuss, we grow.
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-lg font-medium text-slate-600">
+        <p className="mx-auto mt-4 max-w-2xl text-base font-medium text-slate-600 sm:text-lg">
           Real progress comes from feedback loops. These are the voices we are
           building for.
         </p>
@@ -322,10 +322,10 @@ const CommunityCtaSection = () => (
       <p className="mb-3 text-sm font-black uppercase tracking-[0.2em] text-slate-800">
         Tech Assassin for communities
       </p>
-      <h2 className="mx-auto max-w-3xl text-4xl font-black leading-tight text-slate-950 md:text-5xl">
+      <h2 className="mx-auto max-w-3xl text-3xl font-black leading-tight text-slate-950 sm:text-4xl md:text-5xl">
         Run missions, collect builders, and turn ideas into proof.
       </h2>
-      <p className="mx-auto mt-5 max-w-2xl text-lg font-semibold text-slate-700">
+      <p className="mx-auto mt-5 max-w-2xl text-base font-semibold text-slate-700 sm:text-lg">
         Student clubs, mentors, and organizers can bring their people together
         with missions, reviews, and showcases.
       </p>
@@ -381,7 +381,7 @@ const ProductMockup = ({ type }: { type: string }) => (
           <div className="h-20 rounded bg-slate-100" />
         </div>
       </div>
-      <div className="absolute -left-4 top-16 rounded bg-blue-700 px-3 py-2 text-[10px] font-black text-white shadow-lg">
+      <div className="absolute left-3 top-16 rounded bg-blue-700 px-3 py-2 text-[10px] font-black text-white shadow-lg sm:-left-4">
         {type === "profile" ? "Verified work" : type === "projects" ? "Review ready" : "Mission live"}
       </div>
     </div>
@@ -399,7 +399,7 @@ const FloatingChip = ({
   text: string;
   light?: boolean;
 }) => (
-  <div className={`absolute flex h-10 w-10 rotate-12 items-center justify-center rounded-lg shadow-lg sm:h-12 sm:w-12 md:h-14 md:w-14 ${color} ${light ? "text-white" : "text-slate-950"}`}>
+  <div className={`absolute flex h-10 w-10 rotate-12 items-center justify-center rounded-lg shadow-lg sm:h-12 sm:w-12 md:h-14 md:w-14 ${className} ${color} ${light ? "text-white" : "text-slate-950"}`}>
     <span className="font-heading text-sm font-black sm:text-base md:text-lg">{text}</span>
   </div>
 );

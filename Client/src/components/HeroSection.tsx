@@ -4,14 +4,14 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-white pt-24 pb-14 sm:pt-28 sm:pb-16 md:pt-32 md:pb-20"
+      className="relative flex min-h-[100svh] items-center overflow-hidden bg-white pt-16 pb-10 sm:block sm:min-h-0 sm:pt-28 sm:pb-16 md:pt-32 md:pb-20"
     >
       <div className="container relative z-10 mx-auto px-4 text-center sm:px-6">
         <div className="relative mx-auto max-w-6xl">
           <DecorativeMarks />
 
-          <div className="relative z-10 mx-auto max-w-5xl pt-10 sm:pt-12 md:pt-14">
-            <h1 className="text-4xl font-normal leading-[1.08] text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl">
+          <div className="relative z-10 mx-auto max-w-5xl pt-0 sm:pt-12 md:pt-14">
+            <h1 className="text-[2.45rem] font-normal leading-[1.02] text-slate-800 min-[380px]:text-5xl sm:text-5xl md:text-6xl lg:text-7xl">
               Turning{" "}
               <span className="font-black text-slate-950">learners</span> into
               builders with{" "}
@@ -21,17 +21,17 @@ const HeroSection = () => {
               </span>
             </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-sm font-medium leading-7 text-slate-600 sm:text-base md:mt-8 md:text-lg md:leading-8">
+            <p className="mx-auto mt-5 max-w-[20rem] text-sm font-medium leading-6 text-slate-600 min-[420px]:max-w-sm sm:max-w-2xl sm:text-base md:mt-8 md:text-lg md:leading-8">
               Tech Assassin gives students the team, mentorship, feedback, and
               project runway they need to move from learning to building.
             </p>
           </div>
 
-          <div className="relative z-10 mx-auto mt-9 max-w-xl md:mt-12">
-            <p className="mb-4 text-xs font-black uppercase text-slate-800 sm:text-sm md:mb-5">
+          <div className="relative z-10 mx-auto mt-8 max-w-sm sm:max-w-xl md:mt-12">
+            <p className="mb-3 text-[11px] font-black uppercase text-slate-800 sm:mb-4 sm:text-sm md:mb-5">
               Join us
             </p>
-            <form action="/signup" className="flex items-center justify-center gap-3 sm:gap-4">
+            <form action="/signup" className="flex items-center justify-center gap-2 sm:gap-4">
               <label className="sr-only" htmlFor="hero-email">
                 Email address
               </label>
@@ -40,12 +40,12 @@ const HeroSection = () => {
                 name="email"
                 type="email"
                 placeholder="Your email"
-                className="h-12 min-w-0 flex-1 rounded-lg border border-slate-100 bg-white px-4 text-sm font-medium text-slate-900 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.65)] outline-none transition-colors placeholder:text-slate-400 focus:border-red-300 sm:h-14 sm:px-6 sm:text-base md:h-16 md:px-7 md:text-lg"
+                className="h-11 min-w-0 flex-1 rounded-lg border border-slate-100 bg-white px-4 text-sm font-medium text-slate-900 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.65)] outline-none transition-colors placeholder:text-slate-400 focus:border-red-300 sm:h-14 sm:px-6 sm:text-base md:h-16 md:px-7 md:text-lg"
               />
               <button
                 type="submit"
                 aria-label="Join Tech Assassin"
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-600 text-white shadow-lg shadow-red-600/20 transition-colors hover:bg-red-700 sm:h-14 sm:w-14 md:h-16 md:w-16"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-600 text-white shadow-lg shadow-red-600/20 transition-colors hover:bg-red-700 sm:h-14 sm:w-14 md:h-16 md:w-16"
               >
                 <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
               </button>
@@ -60,7 +60,7 @@ const HeroSection = () => {
 const DecorativeMarks = () => (
   <div aria-hidden="true" className="pointer-events-none absolute inset-0 h-full">
     <CodeFace
-      className="left-[1%] top-[38%] hidden sm:block"
+      className="-left-3 top-[34%] hidden scale-75 min-[380px]:block sm:left-[1%] sm:top-[38%] sm:scale-100"
       rotate="-rotate-12"
       body="bg-emerald-400"
       accent="border-emerald-400"
@@ -78,7 +78,7 @@ const DecorativeMarks = () => (
       accent="border-orange-300"
     />
     <CodeFace
-      className="right-[2%] top-[35%] hidden sm:block"
+      className="-right-3 top-[32%] hidden scale-75 min-[380px]:block sm:right-[2%] sm:top-[35%] sm:scale-100"
       rotate="rotate-12"
       body="bg-yellow-300"
       accent="border-emerald-400"
