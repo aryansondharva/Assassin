@@ -75,14 +75,14 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] border-b border-slate-200 bg-white px-3 py-1.5 shadow-sm pointer-events-none text-sans sm:px-4 sm:py-2">
+    <nav className="fixed top-0 left-0 right-0 z-[100] border-b border-slate-200 bg-white px-3 py-2 shadow-sm pointer-events-none text-sans sm:px-4">
       <motion.div 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className="container mx-auto max-w-7xl pointer-events-auto"
       >
         <div className={`
-          relative flex h-10 items-center justify-between px-0 sm:h-11 sm:px-2 md:h-12 md:px-6 rounded-full
+          relative flex h-11 items-center justify-between px-0 sm:h-12 sm:px-2 md:h-[3.25rem] md:px-6 rounded-full
           border border-transparent bg-transparent shadow-none transition-colors duration-300
         `}>
           {/* Logo Section */}
@@ -90,7 +90,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
             <img
               src={logoImg}
               alt="Tech Assassin"
-              className="h-5 w-auto object-contain min-[420px]:h-6 md:h-8"
+              className="h-6 w-auto object-contain min-[420px]:h-7 md:h-8"
             />
           </Link>
 
@@ -105,7 +105,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
                     to={link.href}
                     onClick={() => handleNavClick(link.href)}
                     className={`
-                      px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.18em] transition-all duration-300 relative
+                      px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.18em] transition-all duration-300 relative
                       ${isActive 
                         ? "text-red-600"
                         : "text-slate-500 hover:text-slate-950"
@@ -136,12 +136,12 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
             ) : (
               <div className="flex items-center gap-6">
                 <SignInButton mode="modal">
-                  <button className="text-[10px] font-black uppercase tracking-widest text-slate-500 transition-colors hover:text-slate-950">
+                  <button className="text-[11px] font-black uppercase tracking-widest text-slate-500 transition-colors hover:text-slate-950">
                     Enter System
                   </button>
                 </SignInButton>
                 <SignUpButton mode="modal" forceRedirectUrl="/edit-profile" fallbackRedirectUrl="/edit-profile">
-                  <button className="flex items-center gap-2 rounded-full bg-slate-950 px-5 py-2 text-[10px] font-black uppercase tracking-widest text-white shadow-lg transition-all hover:scale-105 hover:bg-red-600 active:scale-95">
+                  <button className="flex items-center gap-2 rounded-full bg-slate-950 px-5 py-2.5 text-[11px] font-black uppercase tracking-widest text-white shadow-lg transition-all hover:scale-105 hover:bg-red-600 active:scale-95">
                     Join Squad <Zap className="w-3 h-3 fill-current" />
                   </button>
                 </SignUpButton>
@@ -199,7 +199,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
                     key={link.label}
                     to={link.href}
                     onClick={() => handleNavClick(link.href)}
-                    className="text-4xl font-black uppercase leading-none tracking-tight text-slate-950 transition-colors active:text-red-600"
+                    className="text-4xl font-black uppercase leading-none text-slate-950 transition-colors active:text-red-600"
                   >
                     {link.label}
                   </Link>

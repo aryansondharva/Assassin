@@ -1,4 +1,6 @@
-import { Heart } from "lucide-react";
+import { Eye } from "lucide-react";
+import { useEffect, useState } from "react";
+import { api } from "@/lib/api-client";
 import logoImg from '@/assets/logo.png';
 
 const socialLinks = [
@@ -40,17 +42,48 @@ const socialLinks = [
   },
 ];
 
+type VisitorTrackResponse = {
+  totalVisitors: number;
+  countedThisVisit: boolean;
+};
+
+const formatVisitorCount = (value: number) => new Intl.NumberFormat("en-US").format(value);
+
 const Footer = () => {
+  const [visitorCount, setVisitorCount] = useState<number | null>(null);
+  const [visitorError, setVisitorError] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    api
+      .post<VisitorTrackResponse>("/visitors/track")
+      .then((data) => {
+        if (!mounted) return;
+        setVisitorCount(data.totalVisitors);
+        setVisitorError(false);
+      })
+      .catch(() => {
+        if (!mounted) return;
+        setVisitorCount(null);
+        setVisitorError(true);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   return (
     <footer className="bg-hero text-hero-foreground">
-      <div className="container mx-auto px-6 py-20">
+      <div className="container mx-auto px-6 py-16 md:py-[4.5rem]">
 
         {/* Top section: Tagline + Link columns */}
-        <div className="flex flex-col lg:flex-row items-start justify-between gap-16">
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-16">
 
           {/* Left — Tagline + socials */}
-          <div className="flex flex-col gap-10 max-w-sm">
-            <h2 className="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight text-hero-foreground">
+          <div className="flex max-w-sm flex-col gap-8">
+            <h2 className="text-[2rem] font-extrabold leading-tight text-hero-foreground md:text-[2.45rem]">
               We love{" "}
               <span className="text-primary italic">software</span>
               <br />
@@ -75,14 +108,14 @@ const Footer = () => {
           </div>
 
           {/* Right — Link Columns */}
-          <div className="flex flex-wrap gap-12 md:gap-20">
+          <div className="flex flex-wrap gap-10 md:gap-16">
 
             {/* Community */}
             <div>
-              <h5 className="text-[10px] font-black uppercase tracking-[0.25em] text-hero-muted mb-5">
+              <h5 className="mb-5 text-xs font-black uppercase tracking-[0.22em] text-hero-muted">
                 Community
               </h5>
-              <ul className="space-y-3.5">
+              <ul className="space-y-3">
                 {[
                   "Launch a Mission",
                   "Global Missions",
@@ -93,7 +126,7 @@ const Footer = () => {
                   <li key={link}>
                     <a
                       href="#"
-                      className="text-sm text-hero-muted hover:text-primary transition-colors duration-200"
+                      className="text-[0.95rem] font-medium text-hero-muted transition-colors duration-200 hover:text-primary"
                     >
                       {link}
                     </a>
@@ -104,16 +137,16 @@ const Footer = () => {
 
             {/* Company */}
             <div>
-              <h5 className="text-[10px] font-black uppercase tracking-[0.25em] text-hero-muted mb-5">
+              <h5 className="mb-5 text-xs font-black uppercase tracking-[0.22em] text-hero-muted">
                 Company
               </h5>
-              <ul className="space-y-3.5">
+              <ul className="space-y-3">
                 {["About", "Blog", "Careers", "Changelog", "Privacy", "Terms"].map(
                   (link) => (
                     <li key={link}>
                       <a
                         href={link === "About" ? "/about" : "#"}
-                        className="text-sm text-hero-muted hover:text-primary transition-colors duration-200"
+                        className="text-[0.95rem] font-medium text-hero-muted transition-colors duration-200 hover:text-primary"
                       >
                         {link}
                       </a>
@@ -125,15 +158,15 @@ const Footer = () => {
 
             {/* Support */}
             <div>
-              <h5 className="text-[10px] font-black uppercase tracking-[0.25em] text-hero-muted mb-5">
+              <h5 className="mb-5 text-xs font-black uppercase tracking-[0.22em] text-hero-muted">
                 Support
               </h5>
-              <ul className="space-y-3.5">
+              <ul className="space-y-3">
                 {["Guide", "Status", "Contact us"].map((link) => (
                   <li key={link}>
                     <a
                       href="#"
-                      className="text-sm text-hero-muted hover:text-primary transition-colors duration-200"
+                      className="text-[0.95rem] font-medium text-hero-muted transition-colors duration-200 hover:text-primary"
                     >
                       {link}
                     </a>
@@ -155,7 +188,15 @@ const Footer = () => {
             alt="Tech Assassin"
             className="h-7 w-auto object-contain"
           />
-          <p className="text-hero-muted text-xs flex items-center gap-1">
+          <p className="flex items-center gap-2 text-sm text-hero-muted">
+            <Eye className="h-4 w-4 text-primary" />
+            <span>
+              {visitorCount === null
+                ? visitorError ? "Visitors unavailable" : "Visitors loading"
+                : `${formatVisitorCount(visitorCount)} unique visitors`}
+            </span>
+          </p>
+          <p className="text-hero-muted text-sm flex items-center gap-1">
             © 2026, Tech Assassin Community.
           </p>
         </div>

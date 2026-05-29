@@ -167,10 +167,10 @@ const ImpactSection = () => (
           <p className="mb-3 text-xs font-black uppercase tracking-[0.22em] text-red-600">
             We ship momentum
           </p>
-          <h2 className="text-[1.6rem] font-black leading-tight text-slate-950 sm:text-[2.15rem] md:text-[2.55rem]">
+          <h2 className="text-[1.85rem] font-black leading-tight text-slate-950 sm:text-[2.2rem] md:text-[2.45rem]">
             A community where learners become builders.
           </h2>
-          <p className="mt-4 text-[0.95rem] font-medium leading-6 text-slate-600 sm:text-[1rem] sm:leading-7">
+          <p className="mt-4 max-w-xl text-base font-medium leading-7 text-slate-600 sm:text-[1.05rem] sm:leading-8">
             We run missions, reviews, workshops, and project showcases so students
             can move from tutorials to real work with a squad around them.
           </p>
@@ -214,7 +214,7 @@ const ImpactStats = () => {
             <span className="font-heading text-[1.7rem] font-black leading-none min-[420px]:text-[2.15rem] sm:text-[2.55rem] lg:text-[2.55rem]">
               {formatStatValue(value)}
             </span>
-            <span className="text-base font-medium leading-none min-[420px]:text-lg sm:text-xl">
+        <span className="text-base font-semibold leading-none min-[420px]:text-lg sm:text-xl">
               {stat.label}
             </span>
           </div>
@@ -253,22 +253,22 @@ const ImpactImageSwap = () => {
 };
 
 const HappeningNowSection = () => (
-  <section className="bg-white py-12 md:py-16">
+  <section className="bg-white py-14 md:py-[4.5rem]">
     <div className="container mx-auto px-6">
-      <h2 className="mb-8 text-center text-xl font-black text-slate-950">
+      <h2 className="mb-8 text-center text-2xl font-black text-slate-950 md:text-[2rem]">
         Happening now
       </h2>
-      <div className="mx-auto grid max-w-4xl gap-5 md:grid-cols-3">
+      <div className="mx-auto grid max-w-5xl gap-5 md:grid-cols-3">
         {missions.map((mission) => (
-          <article key={mission.title} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+          <article key={mission.title} className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
             <div className="mb-4 flex items-center justify-between">
-              <span className="rounded bg-red-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-red-600">
+              <span className="rounded bg-red-50 px-2.5 py-1 text-[11px] font-black uppercase tracking-[0.16em] text-red-600">
                 {mission.tag}
               </span>
               <Trophy className="h-4 w-4 text-yellow-500" />
             </div>
-            <h3 className="text-lg font-black text-slate-950">{mission.title}</h3>
-            <div className="mt-4 space-y-2 text-sm font-medium text-slate-500">
+            <h3 className="text-xl font-black leading-snug text-slate-950">{mission.title}</h3>
+            <div className="mt-4 space-y-2 text-[0.95rem] font-medium text-slate-500">
               <p className="flex items-center gap-2">
                 <CalendarDays className="h-4 w-4 text-red-600" />
                 {mission.date}
@@ -278,7 +278,7 @@ const HappeningNowSection = () => (
                 {mission.location}
               </p>
             </div>
-            <a href="#community" className="mt-5 inline-flex items-center gap-2 text-sm font-black text-red-600">
+            <a href="#community" className="mt-5 inline-flex items-center gap-2 text-[0.95rem] font-black text-red-600">
               View mission <ArrowRight className="h-4 w-4" />
             </a>
           </article>
@@ -293,11 +293,11 @@ const QuoteSection = () => (
     <div className="container mx-auto px-6">
       <div className="mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-[0.95fr_1.05fr] md:gap-10">
         <div>
-          <p className="text-2xl font-black leading-tight text-red-600 md:text-3xl">
+          <p className="text-[1.65rem] font-black leading-tight text-red-600 md:text-[2rem]">
             The mission is simple: give every student a real shot at building
             something meaningful before motivation fades.
           </p>
-          <p className="mt-5 text-sm font-bold text-slate-500">
+          <p className="mt-5 text-base font-semibold leading-7 text-slate-600">
             Tech Assassin exists for unfinished ideas, late-night commits, and
             the students who need the right room to keep going.
           </p>
@@ -331,7 +331,7 @@ const IdentitySection = () => (
           />
         </div>
       </div>
-      <h2 className="text-3xl font-black text-slate-950 md:text-5xl">
+      <h2 className="text-[1.9rem] font-black leading-tight text-slate-950 md:text-[2.75rem]">
         Tech Assassin is{" "}
         <span className="relative inline-block">
           your build runway
@@ -362,15 +362,15 @@ const BuilderStorySection = () => (
                 <span className="h-4 w-16 rounded-full bg-emerald-400" />
                 <Icon className="h-5 w-5 text-blue-500" />
               </div>
-              <h3 className="text-2xl font-black leading-tight text-slate-950 sm:text-3xl">
+              <h3 className="text-[1.45rem] font-black leading-tight text-slate-950 sm:text-[1.65rem]">
                 {block.title}
               </h3>
-              <p className="mt-4 text-sm font-medium leading-7 text-slate-600 sm:text-base">
+              <p className="mt-4 max-w-xl text-base font-medium leading-7 text-slate-600">
                 {block.body}
               </p>
               <Link
                 to="/signup"
-                className="mt-6 inline-flex items-center gap-2 rounded bg-blue-50 px-4 py-2 text-sm font-black text-blue-600 transition-colors hover:bg-blue-100"
+                className="mt-6 inline-flex items-center gap-2 rounded bg-blue-50 px-4 py-2 text-[0.95rem] font-black text-blue-600 transition-colors hover:bg-blue-100"
               >
                 {block.cta} <ArrowRight className="h-4 w-4" />
               </Link>
@@ -387,10 +387,10 @@ const DeveloperVoicesSection = () => (
   <section id="developers-say" className="bg-white py-16 md:py-20">
     <div className="container mx-auto px-6">
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">
+        <h2 className="text-[1.9rem] font-black leading-tight text-slate-950 sm:text-[2.25rem]">
           We speak, we listen, we discuss, we grow.
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base font-medium text-slate-600 sm:text-lg">
+        <p className="mx-auto mt-4 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-[1.05rem]">
           Real progress comes from feedback loops. These are the voices we are
           building for.
         </p>
@@ -403,7 +403,7 @@ const DeveloperVoicesSection = () => (
                 <Star key={star} className="h-4 w-4 fill-current" />
               ))}
             </div>
-            <p className="text-lg font-bold leading-8 text-slate-800">
+            <p className="text-base font-bold leading-7 text-slate-800 sm:text-[1.05rem]">
               "{item.quote}"
             </p>
             <div className="mt-8 flex items-center gap-4">
@@ -428,13 +428,13 @@ const DeveloperVoicesSection = () => (
 const CommunityCtaSection = () => (
   <section className="bg-yellow-300 py-16 md:py-20">
     <div className="container mx-auto px-6 text-center">
-      <p className="mb-3 text-sm font-black uppercase tracking-[0.2em] text-slate-800">
+      <p className="mb-3 text-xs font-black uppercase tracking-[0.2em] text-slate-800">
         Tech Assassin for communities
       </p>
-      <h2 className="mx-auto max-w-3xl text-3xl font-black leading-tight text-slate-950 sm:text-4xl md:text-5xl">
+      <h2 className="mx-auto max-w-3xl text-[1.9rem] font-black leading-tight text-slate-950 sm:text-[2.35rem] md:text-[2.75rem]">
         Run missions, collect builders, and turn ideas into proof.
       </h2>
-      <p className="mx-auto mt-5 max-w-2xl text-base font-semibold text-slate-700 sm:text-lg">
+      <p className="mx-auto mt-5 max-w-2xl text-base font-semibold leading-7 text-slate-700 sm:text-[1.05rem]">
         Student clubs, mentors, and organizers can bring their people together
         with missions, reviews, and showcases.
       </p>
