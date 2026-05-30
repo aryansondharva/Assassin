@@ -46,19 +46,37 @@ export async function POST(request: Request) {
       .from('banners')
       .getPublicUrl(fileName)
     
-    const { data: profiles, error: updateError } = await supabase
-      .from('profiles')
-      .update({ banner_url: publicUrl })
-      .eq('id', user.id)
-      .select()
-      .single()
+    // Update profile with banner URL using pg Pool to bypass PGRST002 error
+    const { Pool } = require('pg');
+    const pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      max: 5,
+      idleTimeoutMillis: 60000,
+      connectionTimeoutMillis: 10000,
+      ssl: { rejectUnauthorized: false }
+    });
+
+    const client = await pool.connect();
+    let updatedProfile = null;
     
-    if (updateError) throw new Error(`Failed to update profile: ${updateError.message}`)
+    try {
+      const { rows } = await client.query(
+        'UPDATE public.profiles SET banner_url = $1, updated_at = NOW() WHERE id = $2 RETURNING *',
+        [publicUrl, user.id]
+      );
+      if (rows.length > 0) {
+        updatedProfile = rows[0];
+      }
+    } catch (updateError: any) {
+      throw new Error(`Failed to update profile with banner URL: ${updateError.message}`);
+    } finally {
+      client.release();
+    }
 
     return NextResponse.json({
       message: 'Banner uploaded successfully',
       banner_url: publicUrl,
-      profile: profiles as Profile
+      profile: updatedProfile as Profile
     })
   } catch (error) {
     return handleApiError(error)

@@ -65,18 +65,32 @@ export async function POST(request: Request) {
       .from('avatars')
       .getPublicUrl(fileName)
     
-    // Update profile with avatar URL
-    const { data: profiles, error: updateError } = await supabase
-      .from('profiles')
-      .update({ avatar_url: publicUrl })
-      .eq('id', user.id)
-      .select()
-    
-    if (updateError) {
-      throw new Error(`Failed to update profile with avatar URL: ${updateError.message}`)
-    }
+    // Update profile with avatar URL using pg Pool to bypass PGRST002 error
+    const { Pool } = require('pg');
+    const pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      max: 5,
+      idleTimeoutMillis: 60000,
+      connectionTimeoutMillis: 10000,
+      ssl: { rejectUnauthorized: false }
+    });
 
-    const updatedProfile = profiles && profiles.length > 0 ? profiles[0] : null;
+    const client = await pool.connect();
+    let updatedProfile = null;
+    
+    try {
+      const { rows } = await client.query(
+        'UPDATE public.profiles SET avatar_url = $1, updated_at = NOW() WHERE id = $2 RETURNING *',
+        [publicUrl, user.id]
+      );
+      if (rows.length > 0) {
+        updatedProfile = rows[0];
+      }
+    } catch (updateError: any) {
+      throw new Error(`Failed to update profile with avatar URL: ${updateError.message}`);
+    } finally {
+      client.release();
+    }
 
     return NextResponse.json({
       message: 'Avatar uploaded successfully',
