@@ -24,14 +24,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 const profileSchema = z.object({
   full_name: z.string().min(2, 'Name must be at least 2 characters'),
   username: z.string().min(3, 'Username must be at least 3 characters'),
-  bio: z.string().max(500, 'Bio must be less than 500 characters').optional(),
-  github_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  linkedin_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  twitter_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  portfolio_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  address: z.string().optional(),
-  university: z.string().optional(),
-  degree_type: z.string().optional(),
+  bio: z.string().max(500, 'Bio must be less than 500 characters').optional().or(z.literal('')),
+  github_url: z.string().optional().or(z.literal('')),
+  linkedin_url: z.string().optional().or(z.literal('')),
+  twitter_url: z.string().optional().or(z.literal('')),
+  portfolio_url: z.string().optional().or(z.literal('')),
+  address: z.string().optional().or(z.literal('')),
+  university: z.string().optional().or(z.literal('')),
+  degree_type: z.string().optional().or(z.literal('')),
   graduation_year: z.coerce.number().optional().or(z.literal('')),
   is_email_public: z.boolean(),
   is_address_public: z.boolean(),
@@ -61,12 +61,22 @@ export default function EditProfile() {
   const isEmailPublic = watch('is_email_public');
   const isAddressPublic = watch('is_address_public');
 
-  // Keep username in sync with Clerk whenever the user object loads/changes
+  // Build a full name from Clerk's first/last name
+  const clerkFullName = [user?.firstName, user?.lastName].filter(Boolean).join(' ') || '';
+
+  // Keep username and full_name in sync with Clerk whenever the user object loads/changes
   useEffect(() => {
     if (user?.username) {
       setValue('username', user.username);
     }
-  }, [user?.username, setValue]);
+    if (clerkFullName) {
+      // Only set if the form field is currently empty (don't overwrite user edits)
+      const currentName = watch('full_name');
+      if (!currentName) {
+        setValue('full_name', clerkFullName);
+      }
+    }
+  }, [user?.username, clerkFullName, setValue, watch]);
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -80,7 +90,7 @@ export default function EditProfile() {
         const data = await profileService.getMyProfile();
         setProfile(data);
         reset({
-          full_name: data.full_name || '',
+          full_name: data.full_name || clerkFullName || '',
           username: user?.username || data.username || '',
           bio: data.bio || '',
           github_url: data.github_url || '',
@@ -96,9 +106,12 @@ export default function EditProfile() {
         });
       } catch (err: any) {
         console.error('Failed to fetch profile:', err);
-        // Even if the backend fails, populate the username from Clerk
+        // Even if the backend fails, populate available data from Clerk
         if (user?.username) {
           setValue('username', user.username);
+        }
+        if (clerkFullName) {
+          setValue('full_name', clerkFullName);
         }
         toast({ title: 'Error', description: 'Failed to load profile data', variant: 'destructive' });
       } finally {
@@ -107,14 +120,15 @@ export default function EditProfile() {
     };
 
     fetchProfile();
-  }, [isLoaded, userId, user, navigate, reset, setValue]);
+  }, [isLoaded, userId, user, clerkFullName, navigate, reset, setValue]);
 
   const onSubmit = async (data: ProfileFormValues) => {
     setIsSaving(true);
     try {
+      const graduationYear = data.graduation_year ? Number(data.graduation_year) : undefined;
       await profileService.update({
         ...data,
-        graduation_year: data.graduation_year ? Number(data.graduation_year) : undefined
+        graduation_year: (graduationYear && !isNaN(graduationYear)) ? graduationYear : undefined,
       });
       toast({ title: 'Success', description: 'Profile updated successfully' });
       navigate('/profile');
