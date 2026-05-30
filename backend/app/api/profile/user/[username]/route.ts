@@ -1,8 +1,16 @@
 import { currentUser } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { Pool } from 'pg'
 import { handleApiError, NotFoundError } from '@/lib/errors'
 import type { Profile } from '@/types/database'
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  max: 5,
+  idleTimeoutMillis: 60000,
+  connectionTimeoutMillis: 10000,
+  ssl: { rejectUnauthorized: false }
+})
 
 /**
  * GET /api/profile/user/[username]
@@ -19,18 +27,21 @@ export async function GET(
       username = username.slice(1)
     }
     
-    // Get Supabase client
-    const supabase = await createClient()
+    const client = await pool.connect()
+    let profile;
     
-    // Fetch user profile
-    const { data: profile, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('username', username)
-      .single()
-    
-    if (error || !profile) {
-      throw new NotFoundError('Profile not found')
+    try {
+      const { rows } = await client.query(
+        'SELECT * FROM public.profiles WHERE username = $1',
+        [username]
+      )
+      
+      if (rows.length === 0) {
+        throw new NotFoundError('Profile not found')
+      }
+      profile = rows[0]
+    } finally {
+      client.release()
     }
     
     // Get current user to determine if this is their own profile (imported from @clerk/nextjs/server)
