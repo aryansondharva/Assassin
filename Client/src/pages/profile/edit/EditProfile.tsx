@@ -222,7 +222,10 @@ export default function EditProfile() {
                 </label>
               </div>
               
-              <div className="mt-20 pt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Spacer to prevent overlap with the absolutely positioned avatar */}
+              <div className="h-24 sm:h-28"></div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="full_name" className="text-slate-700 font-bold uppercase tracking-wider text-xs">Full Name</Label>
                   <div className="relative">
