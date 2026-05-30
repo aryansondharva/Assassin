@@ -1,8 +1,10 @@
 import founderImg from '@/assets/founder.png';
 import manthanImg from '@/assets/manthan.png';
 import flagImg from '@/assets/flag.webp';
-import heroBgImg from '@/assets/hero-bg.webp';
-import keyChainImg from '@/assets/key_chain.png';
+import we1Img from '@/assets/we1.webp';
+import we2Img from '@/assets/we2.webp';
+import we3Img from '@/assets/we3.webp';
+
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api-client";
 import {
@@ -55,19 +57,19 @@ const formatStatValue = (value: number) => {
 
 const impactSlides = [
   {
-    src: keyChainImg,
-    alt: "Tech Assassin key chain",
+    src: we1Img,
+    alt: "Tech Assassin community event 1",
     imageClassName: "object-cover object-center",
   },
   {
-    src: heroBgImg,
-    alt: "Tech Assassin community background",
+    src: we2Img,
+    alt: "Tech Assassin community event 2",
     imageClassName: "object-cover object-center",
   },
   {
-    src: flagImg,
-    alt: "Tech Assassin flag",
-    imageClassName: "object-contain bg-slate-950 p-8",
+    src: we3Img,
+    alt: "Tech Assassin community event 3",
+    imageClassName: "object-cover object-center",
   },
 ];
 
