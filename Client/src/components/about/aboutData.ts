@@ -1,5 +1,7 @@
 import founderImg from '@/assets/founder.png';
 import manthanImg from '@/assets/manthan.png';
+import founderBanner from '@/assets/founder_banner.webp';
+import coFounderBanner from '@/assets/co-founder_banner.webp';
 import type { Member } from "./types";
 
 export const teamMembers: Member[] = [
@@ -8,6 +10,7 @@ export const teamMembers: Member[] = [
     role: "Co-Founder",
     accent: "bg-blue-600",
     image: manthanImg,
+    banner: coFounderBanner,
   },
   {
     name: "Berlin",
@@ -34,6 +37,7 @@ export const founderMember: Member = {
   role: "Founder",
   accent: "bg-red-600",
   image: founderImg,
+  banner: founderBanner,
   links: {
     portfolio: "https://aryan-sondharva.vercel.app/",
     discord: "https://discord.gg/S6V3KNUu",

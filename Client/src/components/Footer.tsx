@@ -51,12 +51,13 @@ const Footer = () => {
           {/* Left — Tagline + socials */}
           <div className="flex max-w-sm flex-col gap-8">
             <h2 className="text-[2rem] font-extrabold leading-tight text-hero-foreground md:text-[2.45rem]">
-              We love{" "}
-              <span className="text-primary italic">software</span>
+              We help{" "}
+              <span className="text-primary italic">students</span>
               <br />
-              and the{" "}
-              <span className="text-orange-400 italic">people</span>{" "}
-              who build it.
+              move from learning
+              <br />
+              to{" "}
+              <span className="text-orange-400 italic">building</span>.
             </h2>
 
             {/* Social Icons */}

@@ -3,6 +3,7 @@ export type Member = {
   role: string;
   accent: string;
   image: string;
+  banner?: string;
   links?: {
     portfolio?: string;
     discord?: string;
