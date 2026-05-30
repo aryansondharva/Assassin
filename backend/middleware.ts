@@ -1,5 +1,17 @@
+import { clerkMiddleware } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+
+const PRODUCTION_FRONTEND_ORIGIN = process.env.NEXT_PUBLIC_APP_URL || 'https://tech-assassin.vercel.app'
+
+const parseOrigins = (value?: string) =>
+  value?.split(',').reduce<string[]>((origins, candidate) => {
+    const origin = candidate.trim()
+    if (origin) {
+      origins.push(origin)
+    }
+    return origins
+  }, []) ?? []
 
 /**
  * Combined Clerk and CORS Middleware for TechAssassin Backend API
@@ -29,39 +41,51 @@ const applyCorsHeaders = (
   response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
   response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
 
+  const varyHeader = response.headers.get('Vary')
+  response.headers.set('Vary', varyHeader ? `${varyHeader}, Origin` : 'Origin')
+
   return response
 }
 
-export function middleware(request: NextRequest) {
+const getAllowedOrigins = () => {
+  const envOrigins = parseOrigins(process.env.CORS_ORIGINS)
+
+  return Array.from(
+   new Set(
+     [
+       PRODUCTION_FRONTEND_ORIGIN,
+       process.env.NEXT_PUBLIC_APP_URL,
+       ...envOrigins,
+     ].filter((originValue): originValue is string => Boolean(originValue))
+   )
+  )
+}
+
+export default clerkMiddleware((auth, request: NextRequest) => {
   // Get origin from request headers
   const origin = request.headers.get('origin')
   const isDev = process.env.NODE_ENV === 'development'
-  
-  // Define allowed origins from environment
-  const envOrigins =
-    process.env.CORS_ORIGINS?.split(',').map((value) => value.trim()).filter(Boolean) ?? []
 
-  const allowedOrigins = Array.from(
-   new Set(
-     [process.env.NEXT_PUBLIC_APP_URL, ...envOrigins].filter((originValue): originValue is string =>
-       Boolean(originValue)
-     )
-   )
-  )
+  const allowedOrigins = getAllowedOrigins()
 
   // Handle preflight OPTIONS requests
   if (request.method === 'OPTIONS') {
-   return applyCorsHeaders(new NextResponse(null, {
-     status: 200,
-     headers: {
-       'Access-Control-Max-Age': '86400', // 24 hours
-     },
-   }), origin, isDev, allowedOrigins)
+   return applyCorsHeaders(
+     new NextResponse(null, {
+       status: 200,
+       headers: {
+         'Access-Control-Max-Age': '86400', // 24 hours
+       },
+     }),
+     origin,
+     isDev,
+     allowedOrigins
+   )
   }
   
   // Handle actual requests
   return applyCorsHeaders(NextResponse.next(), origin, isDev, allowedOrigins)
-}
+})
 
 /**
  * Configure which routes use this middleware
@@ -74,5 +98,3 @@ export const config = {
     '/(api|trpc)(.*)',
   ],
 }
-
-export default middleware
