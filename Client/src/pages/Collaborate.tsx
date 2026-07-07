@@ -229,7 +229,7 @@ export default function Collaborate() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-950 selection:bg-red-500 selection:text-white">
+    <div className="min-h-screen bg-white text-slate-950 selection:bg-red-500 selection:text-white font-body">
       <Navbar dark={false} />
 
       <main className="flex min-h-[calc(100vh-80px)] items-center justify-center pt-20 pb-16">
@@ -238,19 +238,23 @@ export default function Collaborate() {
           {submittedRequest ? (
             /* Custom Success Card (Daily UI Style) */
             <div className="mx-auto max-w-sm rounded-3xl border border-slate-100 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] overflow-hidden flex flex-col items-center text-center pb-8 animate-fade-in-up">
-              <div className="w-full h-36 bg-emerald-500 rounded-b-[45%] flex items-center justify-center relative">
-                {/* Ascending Paper Airplane SVG */}
-                <svg viewBox="0 0 200 100" className="w-40 h-20 text-white fill-none stroke-white" strokeWidth="2" strokeLinecap="round">
-                  <path d="M 30 80 Q 70 20, 110 50 T 170 30" strokeDasharray="4 4" />
-                  <g transform="translate(170, 30) rotate(-15)">
-                    <path d="M 0 0 L -16 -6 L -18 10 L 0 0 Z" fill="white" />
-                    <path d="M 0 0 L -18 10 L -10 3 L 0 0 Z" fill="rgba(255,255,255,0.7)" />
+              <div className="w-full h-36 bg-[#2ecc71] rounded-b-[45%] flex items-center justify-center relative">
+                {/* Loop-de-loop Ascending Paper Airplane SVG */}
+                <svg viewBox="0 0 200 100" className="w-40 h-20 text-white fill-none stroke-white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M 30 80 C 15 50, 45 40, 50 65 C 55 90, 95 90, 110 60 C 125 30, 140 10, 170 20" strokeDasharray="4 4" />
+                  <g transform="translate(170, 20) rotate(-25)">
+                    {/* Keel fold */}
+                    <path d="M -20 0 L 10 0" />
+                    {/* Right Wing fold */}
+                    <path d="M 10 0 L -20 12 L -5 3 Z" />
+                    {/* Left Wing fold */}
+                    <path d="M 10 0 L -20 -12 L -5 -3 Z" />
                   </g>
                 </svg>
               </div>
               <h3 className="mt-8 text-xl font-heading font-black tracking-widest text-slate-900">SUCCESS!</h3>
               <p className="mt-4 px-8 text-sm font-medium text-slate-500 leading-relaxed font-body">
-                Your collaboration request has been sent to <span className="font-bold text-slate-800">{submittedRequest.work_email}</span>. We will review your request and get back to you soon.
+                Your request for <span className="font-bold text-slate-800">{submittedRequest.organization_name}</span> is received. We will get back to you soon.
               </p>
               <button
                 type="button"
@@ -259,7 +263,7 @@ export default function Collaborate() {
                   setFormData(initialFormState);
                   setCurrentStep(1);
                 }}
-                className="mt-8 w-[80%] py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-heading font-bold text-sm tracking-widest shadow-lg shadow-emerald-500/20 transition-all"
+                className="mt-8 w-[80%] py-3.5 rounded-full bg-[#2ecc71] hover:bg-[#27ae60] text-white font-heading font-bold text-sm tracking-widest shadow-lg shadow-emerald-500/20 transition-all"
               >
                 Thanks!
               </button>
@@ -579,13 +583,17 @@ export default function Collaborate() {
       {errorPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
           <div className="w-full max-w-sm rounded-3xl border border-slate-100 bg-white shadow-2xl overflow-hidden flex flex-col items-center text-center pb-8 animate-fade-in-up">
-            <div className="w-full h-36 bg-red-500 rounded-b-[45%] flex items-center justify-center relative">
-              {/* Descending Paper Airplane SVG */}
-              <svg viewBox="0 0 200 100" className="w-40 h-20 text-white fill-none stroke-white" strokeWidth="2" strokeLinecap="round">
-                <path d="M 30 30 Q 70 80, 110 50 T 170 70" strokeDasharray="4 4" />
-                <g transform="translate(170, 70) rotate(15)">
-                  <path d="M 0 0 L -16 -6 L -10 10 L 0 0 Z" fill="white" />
-                  <path d="M 0 0 L -10 10 L -8 3 L 0 0 Z" fill="rgba(255,255,255,0.7)" />
+            <div className="w-full h-36 bg-[#ff4d4d] rounded-b-[45%] flex items-center justify-center relative">
+              {/* Loop-de-loop Descending Paper Airplane SVG */}
+              <svg viewBox="0 0 200 100" className="w-40 h-20 text-white fill-none stroke-white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M 30 35 C 10 50, 10 75, 30 75 C 50 75, 60 40, 80 40 C 100 40, 100 10, 120 15 C 140 20, 135 50, 165 65" strokeDasharray="4 4" />
+                <g transform="translate(165, 65) rotate(25)">
+                  {/* Keel fold */}
+                  <path d="M -20 0 L 10 0" />
+                  {/* Right Wing fold */}
+                  <path d="M 10 0 L -20 12 L -5 3 Z" />
+                  {/* Left Wing fold */}
+                  <path d="M 10 0 L -20 -12 L -5 -3 Z" />
                 </g>
               </svg>
             </div>
@@ -596,7 +604,7 @@ export default function Collaborate() {
             <button
               type="button"
               onClick={() => setErrorPopup(null)}
-              className="mt-8 w-[80%] py-3.5 rounded-full bg-red-500 hover:bg-red-600 text-white font-heading font-bold text-sm tracking-widest shadow-lg shadow-red-500/20 transition-all"
+              className="mt-8 w-[80%] py-3.5 rounded-full bg-[#ff4d4d] hover:bg-[#ff3333] text-white font-heading font-bold text-sm tracking-widest shadow-lg shadow-red-500/20 transition-all"
             >
               Okay!
             </button>
