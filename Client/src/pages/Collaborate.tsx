@@ -257,12 +257,7 @@ export default function Collaborate() {
             <div className="relative rounded-2xl border border-slate-200 bg-white p-8 md:p-12 shadow-[0_34px_90px_-56px_rgba(15,23,42,0.95)]">
               {/* Top Progress bar and desk header */}
               <div className="mb-10 flex items-center justify-between">
-                <div>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-black text-red-600 font-heading">
-                    <Clock3 className="h-3 w-3" />
-                    Partner Desk
-                  </span>
-                </div>
+                <div />
                 <div className="text-right">
                   <span className="text-sm font-bold text-red-600 font-heading">
                     Step {String(currentStep).padStart(2, "0")} / {String(totalSteps).padStart(2, "0")}
