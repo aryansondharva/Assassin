@@ -581,40 +581,46 @@ export default function Collaborate() {
       {/* Custom Error Popup (Daily UI Style Modal Overlay with Disconnected Plug) */}
       {errorPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="w-full max-w-sm rounded-3xl border border-slate-100 bg-white shadow-2xl overflow-hidden flex flex-col items-center text-center pb-8 pt-6 animate-fade-in-up">
-            {/* Disconnected Plug SVG Illustration */}
-            <div className="w-full flex justify-center mb-4">
-              <svg viewBox="0 0 200 120" className="w-48 h-32 text-slate-300 fill-none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                {/* Wall Plate (3D perspective tilt) */}
-                <path d="M 60 20 L 90 15 L 90 85 L 60 90 Z" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="2" />
-                {/* Circular Socket */}
-                <ellipse cx="75" cy="52" rx="9" ry="14" fill="#cbd5e1" stroke="#94a3b8" />
-                {/* Outlets (two holes) */}
-                <circle cx="72" cy="52" r="2" fill="#475569" />
-                <circle cx="78" cy="52" r="2" fill="#475569" />
+          <div className="w-full max-w-sm rounded-3xl border border-slate-100 bg-white shadow-2xl overflow-hidden flex flex-col items-center text-center pb-8 pt-8 animate-fade-in-up">
+            {/* Disconnected Plug SVG Illustration with realistic 3D perspective alignment */}
+            <div className="w-full flex justify-center mb-6">
+              <svg viewBox="0 0 200 120" className="w-56 h-36" fill="none">
+                {/* Wall plate left side */}
+                <path d="M 55 25 L 70 20 L 70 80 L 55 85 Z" fill="#cbd5e1" stroke="#94a3b8" strokeWidth="1" />
+                {/* Wall Plate front face */}
+                <path d="M 70 20 L 85 25 L 85 85 L 70 80 Z" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1.5" />
+                {/* Socket circle in perspective */}
+                <ellipse cx="77.5" cy="52.5" rx="5" ry="11" fill="#cbd5e1" stroke="#94a3b8" strokeWidth="1" />
+                {/* Two outlets holes */}
+                <circle cx="77.5" cy="47" r="1.5" fill="#475569" />
+                <circle cx="77.5" cy="57" r="1.5" fill="#475569" />
 
-                {/* Plug (unplugged and pulled to the right) */}
-                <g transform="translate(115, 58)">
-                  {/* Plug body (red/orange) */}
-                  <path d="M 0 -12 L 15 -12 A 12 12 0 0 1 27 0 L 27 12 A 12 12 0 0 1 15 24 L 0 24 Z" fill="#ef4444" stroke="#dc2626" strokeWidth="1.5" />
-                  {/* Plug pins (silver/gray, pointing left to the socket) */}
-                  <line x1="0" y1="2" x2="-10" y2="2" stroke="#94a3b8" strokeWidth="3" />
-                  <line x1="0" y1="14" x2="-10" y2="14" stroke="#94a3b8" strokeWidth="3" />
-                  {/* Cable wire trailing off to the right */}
-                  <path d="M 27 6 C 50 6, 55 30, 95 24" stroke="#ef4444" strokeWidth="3.5" fill="none" />
+                {/* Unplugged Red Plug floating in perspective */}
+                <g transform="translate(105, 35)">
+                  {/* Gray metal pins pointing left towards the socket */}
+                  <line x1="-12" y1="12" x2="3" y2="12" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" />
+                  <line x1="-12" y1="21" x2="3" y2="21" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" />
+                  
+                  {/* Cylinder Plug body */}
+                  <ellipse cx="8" cy="16.5" rx="5" ry="10" fill="#dc2626" />
+                  <path d="M 8 6.5 L 25 9 L 25 24 L 8 26.5 Z" fill="#ef4444" />
+                  <ellipse cx="25" cy="16.5" rx="4" ry="7.5" fill="#b91c1c" />
+                  
+                  {/* Cable wire */}
+                  <path d="M 25 16.5 C 50 16.5, 60 34, 90 28" stroke="#ef4444" strokeWidth="4" strokeLinecap="round" />
                 </g>
               </svg>
             </div>
             
-            <h3 className="text-xl font-heading font-black tracking-widest text-[#ef4444]">OOPS!</h3>
-            <h4 className="mt-2 text-md font-heading font-bold text-slate-900">{errorPopup.title || "Detail Missing!"}</h4>
-            <p className="mt-3 px-8 text-xs font-medium text-slate-500 leading-relaxed font-body max-w-[280px]">
+            <h3 className="text-4xl font-heading font-black tracking-widest text-[#ef4444]">OOPS!</h3>
+            <h4 className="mt-4 text-2xl font-heading font-bold text-slate-900">{errorPopup.title || "Detail Missing!"}</h4>
+            <p className="mt-4 px-8 text-base font-medium text-slate-500 leading-relaxed font-body max-w-[300px]">
               {errorPopup.message}
             </p>
             <button
               type="button"
               onClick={() => setErrorPopup(null)}
-              className="mt-6 w-[80%] py-3 rounded-full bg-[#ef4444] hover:bg-[#e03b3b] text-white font-heading font-bold text-sm tracking-widest shadow-lg shadow-red-600/20 transition-all"
+              className="mt-8 w-[80%] py-3.5 rounded-full bg-[#ef4444] hover:bg-[#e03b3b] text-white font-heading font-bold text-sm tracking-widest shadow-lg shadow-red-600/20 transition-all"
             >
               Try Again
             </button>
