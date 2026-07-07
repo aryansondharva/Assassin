@@ -45,7 +45,7 @@ const Community = () => (
         }
         description="Tech Assassin is not just a group chat. It is a mission-based community where squads, reviews, events, and proof help students keep moving."
         primaryCta={{ label: "Join the mission", href: "/join" }}
-        secondaryCta={{ label: "See builders", href: "/builders" }}
+        secondaryCta={{ label: "View Missions", href: "/missions" }}
       />
 
       <section className="bg-white py-16">

@@ -33,7 +33,7 @@ const Missions = () => (
         }
         description="Tech Assassin missions turn learning into a clear journey: daily tasks, public proof, peer reviews, and a showcase-ready project trail."
         primaryCta={{ label: "Apply for Mission 01", href: "/join" }}
-        secondaryCta={{ label: "Wall of Builders", href: "/builders" }}
+        secondaryCta={{ label: "Join Community", href: "/community" }}
       />
 
       <section className="bg-white pb-16">
