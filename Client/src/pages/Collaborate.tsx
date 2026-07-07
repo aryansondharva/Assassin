@@ -126,7 +126,7 @@ export default function Collaborate() {
       case 1:
         if (!formData.contact_name.trim()) {
           setErrorPopup({
-            title: "Contact Name Missing !",
+            title: "Contact Name Missing",
             message: "Please enter your name.",
           });
           return false;
@@ -135,7 +135,7 @@ export default function Collaborate() {
       case 2:
         if (!formData.organization_name.trim()) {
           setErrorPopup({
-            title: "Organization Name Missing !",
+            title: "Organization Name Missing",
             message: "Please enter organization name.",
           });
           return false;
@@ -144,7 +144,7 @@ export default function Collaborate() {
       case 5:
         if (!formData.work_email.trim() || !formData.work_email.includes("@")) {
           setErrorPopup({
-            title: "Work Email Missing !",
+            title: "Work Email Missing",
             message: "Please enter valid email.",
           });
           return false;
@@ -153,7 +153,7 @@ export default function Collaborate() {
       case 8:
         if (formData.collaboration_interests.length === 0) {
           setErrorPopup({
-            title: "Focus Areas Unselected !",
+            title: "Focus Areas Unselected",
             message: "Please select focus areas.",
           });
           return false;
@@ -162,7 +162,7 @@ export default function Collaborate() {
       case 10:
         if (!formData.message.trim()) {
           setErrorPopup({
-            title: "Partnership Brief Empty !",
+            title: "Partnership Brief Empty",
             message: "Please write partnership goals.",
           });
           return false;
@@ -219,7 +219,7 @@ export default function Collaborate() {
       setSubmittedRequest(request);
     } catch (error) {
       setErrorPopup({
-        title: "Submission Failed !",
+        title: "Submission Failed",
         message: "Please try again later.",
       });
     } finally {
