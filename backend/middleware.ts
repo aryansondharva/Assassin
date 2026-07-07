@@ -2,7 +2,7 @@ import { clerkMiddleware } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const PRODUCTION_FRONTEND_ORIGIN = process.env.NEXT_PUBLIC_APP_URL || 'https://tech-assassin.vercel.app'
+const PRODUCTION_FRONTEND_ORIGIN = process.env.NEXT_PUBLIC_APP_URL || 'https://assassinworld.vercel.app'
 
 const parseOrigins = (value?: string) =>
   value?.split(',').reduce<string[]>((origins, candidate) => {

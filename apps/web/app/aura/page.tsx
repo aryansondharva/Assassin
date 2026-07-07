@@ -48,7 +48,7 @@ const Aura = () => {
               
               <div className="flex flex-wrap gap-4">
                 <a 
-                  href="https://tech-assassin.vercel.app" 
+                  href="https://assassinworld.vercel.app" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 px-8 py-4 rounded-full bg-slate-900 text-white font-black uppercase tracking-widest hover:bg-slate-800 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-slate-200"
@@ -195,6 +195,3 @@ const StackColumn = ({ title, items }: { title: string, items: string[] }) => (
 );
 
 export default Aura;
-
-
-

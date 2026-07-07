@@ -41,8 +41,8 @@ export default function QrCodePage() {
   }, [isLoaded, isSignedIn, router]);
 
   const profileUrl = profile?.username
-    ? `https://tech-assassin.vercel.app/@${profile.username}`
-    : "https://tech-assassin.vercel.app";
+    ? `https://assassinworld.vercel.app/@${profile.username}`
+    : "https://assassinworld.vercel.app";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(profileUrl);
@@ -159,7 +159,7 @@ export default function QrCodePage() {
 
             <div className="w-full bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 flex items-center justify-between mb-8">
               <div className="truncate text-sm font-medium text-slate-600 dark:text-slate-300 mr-4">
-                tech-assassin.vercel.app/@{profile?.username}
+                assassinworld.vercel.app/@{profile?.username}
               </div>
               <button
                 onClick={handleCopy}
