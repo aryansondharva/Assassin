@@ -228,4 +228,4 @@ TechAssassin/
 - Start a discussion for questions.
 - Check existing issues before opening a new one.
 
-Thanks for contributing to Tech Assassin.
+Thanks for contributing to Assassin.
